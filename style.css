@@ -89,23 +89,74 @@ span{
 #register{
     left: 450px;
 }
+/*omar*/
+.input{
+    width: 85%;
+    padding: 5px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+    text-align:center;
+   margin-left: 30px;
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
+label{
+    padding-top: 10px;
+    display: block;
+    color:black;
+    margin-left: 10px;
+    
+}
+.submit{
+    width: 85%;
+     padding: 10px 30px;
+     cursor: pointer;
+     display: block;
+     margin: auto;
+     background: linear-gradient(to right, #ff105f, #ffad06);
+     border: 0;
+     outline: none;
+     border-radius: 30px;
+     margin-top:30px;
+    
+}
+/*xena*/
+.second{
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(fuel.jpg);
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+.table-box{
+    width: 1000px;
+    height: 200px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    padding: 5px;
+    overflow: hidden;
+}
+table,td{
+    width: 1000px;
+  border: 1px solid black;
+}
+.title{
+    text-align: center;
+    margin-top: 30px;
+    background: transparent;
+}
+.form{
+    width: 400px;
+    height: 300px;
+    position: relative;
+    margin: 1% auto;
+    background: #fff;
+    padding: 5px;
+    overflow: hidden;
+}
