@@ -15,6 +15,14 @@ app.get('', (req,res) =>{
     res.sendFile(__dirname + '/views/index.html')
 })
 
+app.set('views','./views')
+
+app.get('/fuel', (req,res) =>{
+    res.sendFile(__dirname + '/views/fuel.html')
+})
+app.get('/project', (req,res) =>{
+    res.sendFile(__dirname + '/views/Project.html')
+})
 
 
 //Listen on port 3000
