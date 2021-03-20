@@ -1,30 +1,62 @@
 //Imports
-if(process.env.NODE_ENV!=='production'){
-require('dotenv').config()
+
+if(process.env.NODE_ENV !== 'production'){
+	require('dotenv').config()
+
 }
+
 
 
 const express  = require('express')
 const app = express()
 const port = 3000
+const router = express.Router();
 
-const passport=require('passport')
+
 const flash=require('express-flash')
 const session=require('express-session')
 const bcrypt=require('bcrypt')
-app.use(express.json())
-const initializePassport= require('./passport-config')
-initializePassport(passport, newUser => users.find(user => user.newUser==newUser), id=>users.find(user => user.id==id))
-const users=[]
+const users = []
+
+const passport=require('passport')
+const initializePassport = require('./passport-config')
+
+
+initializePassport(
+  passport,
+  username => users.find(user => user.username === username),
+  id => users.find(user => user.id === id)
+)
+
 app.use(express.urlencoded({extended:false}))
 app.use(flash())
 app.use(session({
 	secret: process.env.SESSION_SECRET,
-	resave: false,
+	resave:false,
 	saveUninitialized: false
+
 }))
+
 app.use(passport.initialize())
 app.use(passport.session())
+
+function checkAuthenticated(req,res,next){
+	if(req.isAuthenticated()){
+		return next()
+	}
+	
+	res.redirect('/')
+
+}
+function checkNotAuthenticated(req,res,next){
+	if(req.isAuthenticated()){
+		return res.redirect('/')
+		}
+		next()
+	
+	//res.redirect('/')
+}
+
 
 // Static Files 
 app.use(express.static('public'))
@@ -32,54 +64,34 @@ app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/js', express.static(__dirname + 'public/js'))
 app.use('/img', express.static(__dirname + 'public/img'))
 
-// Login stuff
-/*app.get('/users', (req,res)=>{
-	res.json(users)
-})
-app.post('/users/' , async (req,res)=> {
-try{
-	const salt=bcrypt.genSalt()
-}
-	const user={ req.body.name, password:req.body.password}
-	users.push(user)
-	res.status(201).send()
-	
-
-})
-*/
-
-
-app.post('/login', passport.authenticate('local', {
-successRedirect: '/fuel',
-failureRedirect: '/fuel',
-failureFlash: true,
 
 
 
-
+app.post('/logint', checkNotAuthenticated, passport.authenticate('local', {
+  successRedirect: '/fuel',
+  failureRedirect: '/fuel',
+  failureFlash: true
 }))
 
-app.post('/register', async (req,res) => {
+app.post('/register', checkNotAuthenticated, async (req,res) =>{
+
 	try{
-		const hashedPassword= await bcrypt.hash(req.body.newPass, 10)
+		const hashedPassword=await bcrypt.hash(req.body.password, 10)
 		users.push({
 		id: Date.now().toString(),
-		name: req.body.newUser,
-		password: hashedPassword
+		user: req.body.username,
+		pass: hashedPassword
+		
 		})
-	
-	res.redirect('/project')
+		res.redirect('/project')
 	}
 	catch{
-	res.redirect('/index.html')
-	
+		res.redirect('/')
 	}
 	console.log(users)
-	
-	
-	
-})
 
+
+})
 
 
 
@@ -97,13 +109,6 @@ app.get('/fuel', (req,res) =>{
 })
 app.get('/project', (req,res) =>{
     res.sendFile(__dirname + '/views/Project.html')
-})
-app.get('/login', (req,res) => {
-	res.render('/fuel')
-})
-
-app.get('/register', (req,res) => {
-	res.render('/project')
 })
 
 
