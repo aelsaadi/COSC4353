@@ -13,18 +13,21 @@
                     <button type="button" class="toggle-btn" onclick="register()" hr>Register</button>
             </div>
         
-            <form id="login" class="input-group">
-                <input type="text" class="input-field" placeholder="User ID" required>
-                <input type="text" class="input-field" placeholder="Enter Password" required>
+            <form action="/login" method="POST" id="login" class="input-group">
+                <input type="text" class="input-field" id="user" name="newUser" placeholder="User ID" required>
+                <input type="text" class="input-field" id="password" name="newPass" placeholder="Enter Password" required>
                 <input type="checkbox" class="check-box"><span>Remember password?</span>
-                <button type="submit" class="submit-btn">Log in</button>
+               <a href="fuel"> <button type="submit" class="submit-btn">Log in</button></a>
             </form>
-            <form id="register" class="input-group">
-                <input type="text" class="input-field" placeholder="User ID" required>
+
+
+
+            <form action="/register" method="POST" id="register" class="input-group">
+                <input type="text" class="input-field" id="newU" name= "newUser" placeholder="User ID" required>
                 
-                <input type="text" class="input-field" placeholder="Enter Password" required>
-                <input type="checkbox" class="check-box"><span>I agree to the terms & conditions</span>
-                <a href = "Project.html"> <button type="submit" class="submit-btn">Register</button></a>
+                <input type="text" class="input-field" id="newP" name="newPass" placeholder="Enter Password" required>
+                <input type="checkbox" class="check-box" required><span>I agree to the terms & conditions</span>
+              <a href="project"> <button type="submit" class="submit-btn">  Register</button></a>
             </form>
         </div>
 </div>
