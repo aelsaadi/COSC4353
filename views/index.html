@@ -1,0 +1,114 @@
+<html>
+<head>
+    <title>Login and Registration</title>
+    <link rel="stylesheet" href = "css/main.css">
+    
+</head>
+<body>
+    <div class="hero">
+        <div class="form-box">
+            <div class="button-box">
+                    <div id="btn"></div>
+                    <button type="button" class="toggle-btn" onclick="login()">Log in</button>
+                    <button type="button" class="toggle-btn" onclick="register()" hr>Register</button>
+            </div>
+        
+            <form action="/logint" method="POST" id="login" class="input-group">
+                <input type="text" class="input-field" id="user" name="username" placeholder="User ID" required>
+                <input type="text" class="input-field" id="password" name="password" placeholder="Enter Password" required>
+                <input type="checkbox" class="check-box"><span>Remember password?</span>
+               <a href="fuel"> <button type="submit" class="submit-btn">Log in</button></a>
+            </form>
+
+
+
+            <form action="/register" method="POST" id="register" class="input-group">
+                <input type="text" class="input-field" id="newU" name= "username" placeholder="User ID" required>
+                
+                <input type="text" class="input-field" id="newP" name="password" placeholder="Enter Password" required>
+                <input type="checkbox" class="check-box" required><span>I agree to the terms & conditions</span>
+              <a href="project"> <button type="submit" class="submit-btn">  Register</button></a>
+            </form>
+        </div>
+</div>
+    
+    <script>
+    var loginForm = document.getElementById("login");
+    const form = document.getElementById("register");
+    var z = document.getElementById("btn");
+    
+    form.addEventListener('submit', registerUser)
+   async function registerUser(event){
+
+        event.preventDefault()
+        const username = document.getElementById('newU').value
+        const password = document.getElementById('newP').value
+        const result= await fetch('/api/register',{
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        }).then((res)=>res.json())
+        if(result.status='ok')
+        {
+            alert('Success')
+        }
+        else
+        {
+
+            alert(result.error)
+        }
+    }
+
+    loginForm.addEventListener('submit',loginUser)
+    async function registerUser(event){
+
+event.preventDefault()
+const username = document.getElementById('newU').value
+const password = document.getElementById('newP').value
+const result= await fetch('/api/register',{
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        username,
+        password
+    })
+}).then((res)=>res.json())
+if(result.status='ok')
+{
+     document.location.href = "/project"
+    alert('Success')
+}
+else
+{
+
+    alert(result.error)
+}
+}
+
+
+
+
+    
+    function register(){
+        loginForm.style.left = "-400px";
+        form.style.left = "50px";
+        z.style.left = "110px";
+    }
+    function login(){
+        loginForm.style.left = "50px";
+        form.style.left = "450px";
+        z.style.left = "0px";
+    }
+        
+    
+    </script>
+    
+</body>        
+</html>
