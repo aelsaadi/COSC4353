@@ -32,7 +32,8 @@ mongoose.connect('mongodb+srv://user:M2Zlp25kFD8cKnGr@cluster0.3wohx.mongodb.net
 })
 const User = require('./model/user')
 
-const JWT_SECRET='ilhas teezi'
+const JWT_SECRET='sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhfjk'
+
 // initializePassport(
 //   passport,
 //   username => users.find(user => user.username === username),
@@ -122,33 +123,10 @@ app.get('/project', (req,res) =>{
     res.sendFile(__dirname + '/views/Project.html')
 })
 
-
-app.post('/api/login', async (req, res) => {
-	const { username, password } = req.body
-	const user = await User.findOne({ username }).lean()
-
-	if (!user) {
-		return res.json({ status: 'error', error: 'Invalid username/password' })
-	}
-
-	if (await bcrypt.compare(password, user.password)) {
-		// the username, password combination is successful
-
-		const token = jwt.sign(
-			{
-				id: user._id,
-				username: user.username
-			},
-			JWT_SECRET
-		)
-
-		return res.json({ status: 'ok', data: token })
-	}
-
-	res.json({ status: 'error', error: 'Invalid username/password' })
-})
-
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
 
 app.post('/api/register', async(req,res)=>{
 	console.log(req.body)
@@ -161,7 +139,9 @@ app.post('/api/register', async(req,res)=>{
 			username,
 			password
 		})
-		console.log('User created successfully: ', response)
+		
+		 console.log('User created successfully: ', response)
+ return
 	} catch (error) {
 		if (error.code === 11000) {
 			// duplicate key
@@ -171,9 +151,45 @@ app.post('/api/register', async(req,res)=>{
 	}
 
 	res.json({ status: 'ok' })
-
+return
 })
 
+
+
+
+app.post('/login', async (req, res) => {
+
+//res.json({ status: 'ok', data: 'YESDADDY' })
+	const { username, password } = req.body
+	console.log(password)
+	const user = await User.findOne({ username }).lean()
+	console.log('User found successfully', user)
+	console.log(user.password)
+	if (!user) {
+		return res.json({ status: 'error', error: 'Invalid username/password' })
+
+	}
+
+	if (await bcrypt.compare(password, user.password )) {
+		// the username, password combination is successful
+
+		const token = jwt.sign(
+			{
+				id: user._id,
+				username: user.username
+			},
+			JWT_SECRET
+		)
+		
+		return res.json({ status: 'ok', data: token })
+	}
+
+	res.json({ status: 'error', error: 'Invalid username/password' })
+return
+})
+
+
+//app.use('/users', require('./users/users-controller'))
 
 
 //Listen on port 3000
